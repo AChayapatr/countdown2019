@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,13 +15,14 @@
         }
 
         .container {
-            min-height: 100vh;
+            height: 94vh;
+            border: 3vh solid salmon;
             text-align: center;
             text-justify: center;
         }
         #timer {
-            line-height: 100vh;
-            font-family: "avenir next", "sans-serif";
+            line-height: 94vh;
+            font-family: "Lato", "sans-serif";
             font-weight: 400;
             font-size: 10vw;
         }
@@ -29,7 +31,7 @@
 
 <body>
     <div class="container">
-        <h1 id="timer">COUNTDOWN</h1>
+        <h1 id="timer">:)</h1>
     </div>
 </body>
 <script>
@@ -41,7 +43,7 @@
     window.timer = setInterval(function () {
         if (Date.now() <= NEWYEAR) {
             var countdown = Math.floor((NEWYEAR - Date.now())/1000)
-            DOM.countdown.innerHTML = countdown
+            DOM.countdown.innerHTML = countdown + "s"
         }else {
             DOM.countdown.innerHTML = "happynewyear"
         }
