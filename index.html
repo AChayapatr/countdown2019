@@ -10,47 +10,91 @@
     <style>
         body {
             margin: 0;
-            border: 3vh solid salmon;
+            border: 0;
             padding: 0;
+            overflow-x: hidden;
+            overflow-y: hidden;
         }
-
         .container {
             display: flex;
+            flex-direction: column;
             width: auto;
-            height: 94vh;
+            height: 100vh;
             justify-content: center;
             align-items: center;
+            color: #222f3e;
         }
-
+        .winter{
+            background: #c8d6e5;
+        }
+        .summer{
+            background: #feca57;
+        }
+        .rain{
+            background: #54a0ff;
+        }
+        #canvas {
+            height: 40vh;
+            width: 70vw;
+            background: white;
+        }
         #timer {
             font-family: "Lato", sans-serif;
             font-weight: 400;
-            font-size: 16vw;
+            font-size: 10vw;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1 id="timer">:)</h1>
+        <div id="canvas"></div>
+        <h1 id="timer">:-)</h1>
     </div>
 </body>
 <script>
-    const NEWYEAR = new Date(15462756e5)
+    const NEWYEAR2018 = 15462756e5
+    const NEWYEAR2019 = 15778116e5
+    const SUMMER = NEWYEAR2018 + 3974400000
+    const RAIN = NEWYEAR2018 + 11664000000
+    const WINTER = NEWYEAR2018 + 24883200000
     let DOM = {
         container: document.querySelector(".container"),
         countdown: document.querySelector("#timer"),
         body: document.querySelector("body")
     }
-    window.timer = setInterval(function () {
-        if (Date.now() <= NEWYEAR) {
-            var countdown = Math.floor((NEWYEAR - Date.now()) / 1000)
-            var hour = Math.floor(countdown / 3600)
+
+    function seasonCheck() {
+        if(Date.now()>=WINTER) season = 0
+        else if(Date.now()>=RAIN) season = 2
+        else if(Date.now()>=SUMMER) season = 1
+        else season = 0
+        //winter = 0 3974400000, summer = 1, rain = 2
+        if(season===0){
+            DOM.container.classList.remove("rain","summer")
+            DOM.container.classList.add("winter")
+        } else if(season === 1){
+            DOM.container.classList.remove("rain","winter")
+            DOM.container.classList.add("summer")
+        } else if(seasion===2){
+            DOM.container.classList.remove("summer", "winter")
+            DOM.container.classList.add("rain")
+        } else {
+            DOM.container.classList.remove("summer", "winter", "rain")
+            console.log("error")
+        }
+    }
+    Window.timer = setInterval(function () {
+        if (Date.now() <= NEWYEAR2019) {
+            var countdown, day, hour, sec, minute;
+            countdown = Math.floor((NEWYEAR2019 - Date.now()) / 1000)
+            day = Math.floor(countdown / 86400)
+            sec = countdown % 86400
+            var hour = Math.floor(sec / 3600)
             var sec = (countdown % 3600)
             var minute = Math.floor(sec / 60);
             sec = sec % 60
-            console.log(countdown, hour, minute, sec)
-            DOM.countdown.innerHTML = `${hour}h ${minute}m ${sec}s`
+            DOM.countdown.innerHTML = `${day}d ${hour}h ${minute}m ${sec}s`
         } else {
             DOM.countdown.innerHTML = "happynewyear"
         }
@@ -60,6 +104,7 @@
             DOM.countdown.style.color = "white"
             DOM.countdown.style.fontWeight = 900
         }
+        seasonCheck()
     }, 1000)
 </script>
 
