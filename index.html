@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+        }
+
+        .container {
+            min-height: 100vh;
+            text-align: center;
+            text-justify: center;
+        }
+        #timer {
+            line-height: 100vh;
+            font-family: "avenir next", "sans-serif";
+            font-weight: 400;
+            font-size: 10vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="timer">COUNTDOWN</h1>
+    </div>
+</body>
+<script>
+    const NEWYEAR = new Date(15462756e5)
+    let DOM = {
+        container: document.querySelector(".container"),
+        countdown: document.querySelector("#timer")
+    }
+    window.timer = setInterval(function () {
+        if (Date.now() <= NEWYEAR) {
+            var countdown = Math.floor((NEWYEAR - Date.now())/1000)
+            DOM.countdown.innerHTML = countdown
+        }else {
+            DOM.countdown.innerHTML = "happynewyear"
+        }
+        if(countdown <= 300){
+            DOM.container.style.background = "crimson"
+            DOM.countdown.style.color = "white"
+            DOM.countdown.style.fontWeight = 900
+        }
+    }, 1000)
+</script>
+
+</html>
