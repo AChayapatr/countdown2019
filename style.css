@@ -5,6 +5,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
 }
+
 .container-outer {
     background: white;
     height: 100vh;
@@ -13,40 +14,62 @@
     justify-content: center;
     align-items: center;
 }
+
 .container {
     display: flex;
     flex-direction: column;
-    width: 90vw;
-    height: 90vh;
+    width: calc(100% - 10vh);
+    height: calc(100% - 10vh);
     justify-content: space-between;
     align-items: center;
     background: white;
 }
-.winter{
+
+.winter {
     background: #c8d6e5;
 }
-.summer{
+
+.summer {
     background: #feca57;
 }
-.rain{
+
+.rain {
     background: #54a0ff;
 }
+
 #canvas {
-    height: 35rem;
-    width: 100rem;
-    background: white;
+    height: 90vh;
+    width: 100%;
+    background: grey;
 }
-h1 {
+
+.timer-container {
+    width: 100%;
+    min-height: 10vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     font-family: "Lato", sans-serif;
     font-weight: 400;
     color: #222f3e;
-    margin-bottom: 0.3rem;
+    font-size: 16px;
 }
-#timer {
-    font-size: 5vw;
+
+.date-container{
+    display: flex;
+    justify-content: center;
 }
-@media (max-width: 720px){
+
+@media screen and (max-width:720px){
+    .timer-container{
+        font-size: 8px;
+        flex-direction: column-reverse;
+    }
     #timer{
-        font-size: 10vw;
+        font-size: 24px;
+    }
+    .date-container{
+        width: 100%
     }
 }

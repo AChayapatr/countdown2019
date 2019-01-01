@@ -61,7 +61,7 @@ function seasonCheck() {
     }
 }
 
-/*function timeCheck() {
+function timeCheck() {
     var time =  (Math.floor((Date.now() % 86400000) / 3600)) % 24
     console.log(time)
     var timeParam = 0
@@ -82,7 +82,7 @@ function seasonCheck() {
         default:
             console.log("error")
     }
-}*/
+}
 
 Window.timer = setInterval(function () {
     if (Date.now() <= NEWYEAR.y2020) {
@@ -90,9 +90,9 @@ Window.timer = setInterval(function () {
         countdown = Math.floor((NEWYEAR.y2020 - Date.now()) / 1000)
         day = Math.floor(countdown / 86400)
         sec = countdown % 86400
-        var hour = Math.floor(sec / 3600)
-        var sec = (countdown % 3600)
-        var minute = Math.floor(sec / 60)
+        hour = Math.floor(sec / 3600)
+        sec = (countdown % 3600)
+        minute = Math.floor(sec / 60)
         sec = sec % 60
         DOM.timer.innerHTML = `${day}d ${hour}h ${minute}m ${sec}s`
         seasonCheck()
@@ -107,3 +107,9 @@ Window.timer = setInterval(function () {
         DOM.timer.style.fontWeight = 900
     }
 }, 1000)
+
+
+/*TODO: 1.raining 2.sunny --api
+3. moon phase
+4. 
+*/ 
