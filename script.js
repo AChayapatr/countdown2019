@@ -2,6 +2,7 @@ const NEWYEAR = {
     y2019: 15462756e5,
     y2020: 15778116e5
 }
+
 const SEASON = {
     SUMMER: NEWYEAR.y2019 + 3974400000,
     RAIN: NEWYEAR.y2019 + 11664000000,
@@ -13,10 +14,12 @@ let DOM = {
     containerOuter: document.querySelector(".container-outer"),
     timer: document.querySelector("#timer"),
     body: document.querySelector("body"),
-    canvas: document.querySelector("#canvas")
+    canvas: document.querySelector("#canvas"),
+    dateInfoContainer: document.querySelectorAll(".date-info-container")
 }
 
-var season = false
+let season = false
+let init
 
 function winter() {
     var dom = DOM.containerOuter.classList
@@ -56,14 +59,14 @@ function seasonCheck() {
         summer()
     } else if (seasonCheck.rain) {
         rain()
-    } else if(seasonCheck.winter2) {
+    } else if (seasonCheck.winter2) {
         winter()
     }
 }
 
+
 function timeCheck() {
-    var time =  (Math.floor((Date.now() % 86400000) / 3600)) % 24
-    console.log(time)
+    var time = (Math.floor((Date.now() % 86400000) / 3600)) % 24
     var timeParam = 0
     //morning = 0, day = 1, evening = 2, night = 3
     switch (timeParam) {
@@ -84,7 +87,19 @@ function timeCheck() {
     }
 }
 
-Window.timer = setInterval(function () {
+function critical(arg) {
+    if (arg <= 300) {
+        DOM.container.style.background = "crimson"
+        DOM.dateInfoContainer.forEach(el => {
+            el.style.color = "white"
+        })
+        DOM.timer.style.color = "white"
+        DOM.timer.style.fontWeight = 900
+        DOM.containerOuter.classList.remove("summer", "winter", "rain")
+    }
+}
+
+time = function () {
     if (Date.now() <= NEWYEAR.y2020) {
         var countdown, day, hour, sec, minute
         countdown = Math.floor((NEWYEAR.y2020 - Date.now()) / 1000)
@@ -97,19 +112,52 @@ Window.timer = setInterval(function () {
         DOM.timer.innerHTML = `${day}d ${hour}h ${minute}m ${sec}s`
         seasonCheck()
         timeCheck()
+        critical(countdown)
     } else {
         DOM.timer.innerHTML = "happynewyear"
     }
-    if (countdown <= 300) {
-        DOM.container.style.background = "crimson"
-        DOM.containerOuter.style.background = "white"
-        DOM.timer.style.color = "white"
-        DOM.timer.style.fontWeight = 900
+    console.log("Test");
+    return {
+        init: true,
+        countdown: countdown,
+        day: day,
+        hour: hour,
+        minute: minute,
+        sec: sec
     }
-}, 1000)
+}()
+
+function timer() {
+    setInterval(()=>{
+        if (countdown <= NEWYEAR.y2020) {
+            var countdown, day, hour, sec, minute
+            countdown = time.countdown--
+            if(sec > 0){
+                sec = time.sec--
+            } 
+            else{
+                time.sec = 60
+                if(time.minute > 0){
+                    time.minute--
+                }else{
+                    time.minute = 60
+                    if()
+                }
+            }
+            DOM.timer.innerHTML = `${countdown}`
+            seasonCheck()
+            timeCheck()
+            critical(countdown)
+        } else {
+            DOM.timer.innerHTML = "happynewyear"
+        }
+    }, 1000)
+}
+
+timer()
 
 
 /*TODO: 1.raining 2.sunny --api
 3. moon phase
 4. 
-*/ 
+*/
