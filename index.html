@@ -8,139 +8,53 @@
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <style>
-        * {
+        body {
             margin: 0;
-            border: 0;
+            border: 3vh solid salmon;
             padding: 0;
-            overflow-x: hidden;
-            overflow-y: hidden;
-        }
-        .container-outer {
-            background: white;
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         .container {
             display: flex;
-            flex-direction: column;
-            width: 90vw;
-            height: 90vh;
-            justify-content: space-between;
+            width: auto;
+            height: 94vh;
+            justify-content: center;
             align-items: center;
-            background: white;
-        }
-        .winter{
-            background: #c8d6e5;
-        }
-        .summer{
-            background: #feca57;
-        }
-        .rain{
-            background: #54a0ff;
-        }
-        #canvas {
-            height: 35rem;
-            width: 100rem;
-            background: white;
-        }
-        h1 {
-            font-family: "Lato", sans-serif;
-            font-weight: 400;
-            color: #222f3e;
-            margin-bottom: 0.3rem;
         }
         #timer {
-            font-size: 5vw;
-        }
-        @media (max-width: 720px){
-            #timer{
-                font-size: 10vw;
-            }
+            font-family: "Lato", sans-serif;
+            font-weight: 400;
+            font-size: 12vw;
         }
     </style>
 </head>
 
 <body>
-    <dir class="container-outer">
     <div class="container">
-        <!-- TODO: do something with canvas-->
-        <!--<h1 id="title">countdown to 2020!</h1>-->
-        <div id="canvas"></div>
-        <h1 id="timer">:-)</h1>
+        <h1 id="timer">:)</h1>
     </div>
-</dir>
 </body>
 <script>
-    const NEWYEAR2018 = 15462756e5
-    const NEWYEAR2019 = 15778116e5
-    const SUMMER = NEWYEAR2018 + 3974400000
-    const RAIN = NEWYEAR2018 + 11664000000
-    const WINTER = NEWYEAR2018 + 24883200000
-
+    const NEWYEAR = new Date(15778116e5)
     let DOM = {
         container: document.querySelector(".container"),
-        containerOuter: document.querySelector(".container-outer"),
         countdown: document.querySelector("#timer"),
-        body: document.querySelector("body"),
-        canvas: document.querySelector("#canvas")
+        body: document.querySelector("body")
     }
-
-    function seasonCheck() {
-        var dom = DOM.containerOuter
-        if(Date.now()>=WINTER) season = 0
-        else if(Date.now()>=RAIN) season = 2
-        else if(Date.now()>=SUMMER) season = 1
-        else season = 0
-        //winter = 0 3974400000, summer = 1, rain = 2
-        if(season===0){
-            dom.classList.remove("rain","summer")
-            dom.classList.add("winter")
-        } else if(season === 1){
-            dom.classList.remove("rain","winter")
-            dom.classList.add("summer")
-        } else if(seasion===2){
-            dom.classList.remove("summer", "winter")
-            dom.classList.add("rain")
-        } else {
-            dom.classList.remove("summer", "winter", "rain")
-            console.log("error")
-        }
-    }
-
-    function timeCheck() {
-        var time = 0
-        //morning = 0, day = 1, evening = 2, night = 3
-        switch(time){
-            case 0: DOM.canvas.style.background = "#ff9f43"; break;
-            case 1: DOM.canvas.style.background = "#48dbfb"; break;
-            case 2: DOM.canvas.style.background = "#5f27cd"; break;
-            case 3: DOM.canvas.style.background = "#341f97"; break;
-            default: console.log("error");
-        }
-    }
-
-    Window.timer = setInterval(function () {
-        if (Date.now() <= NEWYEAR2019) {
-            var countdown, day, hour, sec, minute;
-            countdown = Math.floor((NEWYEAR2019 - Date.now()) / 1000)
-            day = Math.floor(countdown / 86400)
-            sec = countdown % 86400
-            var hour = Math.floor(sec / 3600)
+    window.timer = setInterval(function () {
+        if (Date.now() <= NEWYEAR) {
+            var countdown = Math.floor((NEWYEAR - Date.now()) / 1000)
+            var hour = Math.floor(countdown / 3600)
             var sec = (countdown % 3600)
             var minute = Math.floor(sec / 60);
             sec = sec % 60
-            DOM.countdown.innerHTML = `${day}d ${hour}h ${minute}m ${sec}s`
-            seasonCheck()
-            timeCheck()
+            console.log(countdown, hour, minute, sec)
+            DOM.countdown.innerHTML = `${hour}h ${minute}m ${sec}s`
         } else {
             DOM.countdown.innerHTML = "happynewyear"
         }
         if (countdown <= 300) {
             DOM.container.style.background = "crimson"
-            DOM.containerOuter.style.background = "white"
+            DOM.body.style.borderColor = "white"
             DOM.countdown.style.color = "white"
             DOM.countdown.style.fontWeight = 900
         }
