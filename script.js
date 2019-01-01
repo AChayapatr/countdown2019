@@ -1,3 +1,5 @@
+"use-strict";
+/*----------variable declaration----------*/
 const NEWYEAR = {
     y2019: 15462756e5,
     y2020: 15778116e5
@@ -13,36 +15,43 @@ let DOM = {
     containerOuter: document.querySelector(".container-outer"),
     timer: document.querySelector("#timer"),
     body: document.querySelector("body"),
-    canvas: document.querySelector("#canvas")
+    canvas: document.querySelector("#canvas"),
+    timeInfo: document.querySelector("#time-info"),
+    dateInfo: document.querySelector("#date-info")
 }
 
-var season = false
+let variable = {
+    season: false
+}
+/*------------------------------*/
 
+/*----------season function-----------*/
 function winter() {
-    var dom = DOM.containerOuter.classList
+    let dom = DOM.containerOuter.classList
     dom.remove("rain", "summer")
     dom.add("winter")
-    season = 0
-    console.log('winter');
+    variable.season = 0
 }
 
 function summer() {
-    var dom = DOM.containerOuter.classList
+    let dom = DOM.containerOuter.classList
     dom.remove("rain", "winter")
     dom.add("summer")
-    season = 1
+    variable.season = 1
 }
 
 function rain() {
-    var dom = DOM.containerOuter.classList
+    let dom = DOM.containerOuter.classList
     dom.remove("summer", "winter")
     dom.add("rain")
-    season = 2
+    variable.season = 2
 }
+/*------------------------------*/
 
+/*----------checking function-----------*/
 function seasonCheck() {
     let check = function (arg1, arg2, arg3) {
-        return Date.now() === arg1 || (Date.now() > arg1 && Date.now() < arg2 && season !== arg3)
+        return Date.now() === arg1 || (Date.now() > arg1 && Date.now() < arg2 && variable.season !== arg3)
     }
     let seasonCheck = {
         winter1: check(NEWYEAR.y2019, SEASON.SUMMER, 0),
@@ -62,9 +71,14 @@ function seasonCheck() {
 }
 
 function timeCheck() {
-    var time =  (Math.floor((Date.now() % 86400000) / 3600)) % 24
-    console.log(time)
-    var timeParam = 0
+    let today = new Date()
+    let hour =  Math.floor((Date.now() % 86400000) / 3600000) + 7
+    let min = Math.floor(((Math.floor((Date.now() % 86400000) / 1000)) % 3600) / 60)
+    //why dont u use function lol
+    let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+    DOM.timeInfo.innerHTML = `${hour}:${min}`
+    DOM.dateInfo.innerHTML = `${today.getDay()} ${month[today.getMonth()]} ${today.getFullYear()}`
+    let timeParam = 0
     //morning = 0, day = 1, evening = 2, night = 3
     switch (timeParam) {
         case 0:
@@ -83,10 +97,20 @@ function timeCheck() {
             console.log("error")
     }
 }
+/*------------------------------*/
 
-Window.timer = setInterval(function () {
+/*----------IIFE function (init)----------*/
+(function () {
+    seasonCheck()
+    timeCheck()
+    console.log("init")
+}())
+/*------------------------------*/
+
+/*----------main timer----------*/
+let timer = setInterval(function () {
     if (Date.now() <= NEWYEAR.y2020) {
-        var countdown, day, hour, sec, minute
+        let countdown, day, hour, sec, minute
         countdown = Math.floor((NEWYEAR.y2020 - Date.now()) / 1000)
         day = Math.floor(countdown / 86400)
         sec = countdown % 86400
@@ -95,19 +119,22 @@ Window.timer = setInterval(function () {
         minute = Math.floor(sec / 60)
         sec = sec % 60
         DOM.timer.innerHTML = `${day}d ${hour}h ${minute}m ${sec}s`
-        seasonCheck()
-        timeCheck()
+        if(sec===59){
+            seasonCheck()
+            timeCheck()
+        }
+        if (countdown <= 300) {
+            DOM.container.style.background = "crimson"
+            DOM.containerOuter.style.background = "white"
+            DOM.timer.style.color = "white"
+            DOM.timer.style.fontWeight = 900
+        }
     } else {
         DOM.timer.innerHTML = "happynewyear"
-    }
-    if (countdown <= 300) {
-        DOM.container.style.background = "crimson"
-        DOM.containerOuter.style.background = "white"
-        DOM.timer.style.color = "white"
-        DOM.timer.style.fontWeight = 900
+        clearInterval(timer)
     }
 }, 1000)
-
+/*------------------------------*/
 
 /*TODO: 1.raining 2.sunny --api
 3. moon phase
