@@ -74,9 +74,10 @@ function timeCheck() {
     let today = new Date()
     let hour =  Math.floor((Date.now() % 86400000) / 3600000) + 7
     let min = Math.floor(((Math.floor((Date.now() % 86400000) / 1000)) % 3600) / 60)
+    let minFormat = min.toString().padStart(2, "0")
     //why dont u use function lol
     let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-    DOM.timeInfo.innerHTML = `${hour}:${min}`
+    DOM.timeInfo.innerHTML = `${hour}:${minFormat}`
     DOM.dateInfo.innerHTML = `${today.getDay()} ${month[today.getMonth()]} ${today.getFullYear()}`
     let timeParam = 0
     //morning = 0, day = 1, evening = 2, night = 3
