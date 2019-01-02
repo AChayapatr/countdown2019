@@ -45,15 +45,16 @@ seasonCheck = () => {
     let currentTime = new Date().valueOf();
     switch(true){
         case (currentTime <= newYear + 3974400000):
-            summer();
-            break;
-        case (currentTime <= newYear + 11664000000):
-            rain();
-            break;
-        case (currentTime <= newYear + 24883200000):
             winter();
             break;
+        case (currentTime <= newYear + 11664000000):
+            summer();
+            break;
+        case (currentTime <= newYear + 24883200000):
+            rain();
+            break;
         default:
+            winter();
             break;
     }
 },
